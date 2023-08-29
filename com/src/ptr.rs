@@ -16,6 +16,8 @@ pub struct VstPtr<T: ComInterface + ?Sized> {
     ptr: NonNull<*mut <T as ComInterface>::VTable>,
 }
 
+unsafe impl<T: ComInterface + ?Sized> Send for VstPtr<T> {}
+
 /// [VstPtr], but without any lifetime management. This is only used for the parts of the API where
 /// the host may not have implemented the correct lifetime management features, such as in the
 /// process context. You should never use this yourself.
@@ -117,7 +119,7 @@ impl<T: ComInterface + ?Sized> RawVstPtr<T> {
         })
     }
 
-    /// Get the underlying interface pointer. This pointer is only guarnteed to live for as long as
+    /// Get the underlying interface pointer. This pointer is only guaranteed to live for as long as
     /// the current `VstPtr` is alive.
     pub fn as_ptr(&self) -> *mut *mut <T as ComInterface>::VTable {
         self.ptr.as_ptr()

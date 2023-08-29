@@ -8,7 +8,7 @@ pub use vst3_com::VstPtr;
 #[repr(transparent)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct SharedVstPtr<I: ComInterface + ?Sized> {
-    ptr: *mut *mut <I as ComInterface>::VTable,
+    pub ptr: *mut *mut <I as ComInterface>::VTable,
 }
 
 /// A [VstPtr]-like object without any lifetime management. Used only as a field in structs
@@ -36,6 +36,14 @@ impl<I: ComInterface + ?Sized> SharedVstPtr<I> {
     }
 }
 
+impl<I: ComInterface + ?Sized> From<VstPtr<I>> for SharedVstPtr<I> {
+    fn from(value: VstPtr<I>) -> Self {
+        // todo: find a better way to prevent release from being called when the VstPtr is dropped
+        let value = std::mem::ManuallyDrop::new(value);
+        SharedVstPtr { ptr:value.as_ptr()}
+    }
+}
+
 impl<I: ComInterface + ?Sized> StaticVstPtr<I> {
     pub fn as_ptr(&mut self) -> *mut *mut <I as ComInterface>::VTable {
         self.ptr
@@ -50,5 +58,15 @@ impl<I: ComInterface + ?Sized> StaticVstPtr<I> {
     pub fn upgrade(&self) -> Option<RawVstPtr<I>> {
         // Safety: we only guarantee the pointer is not null, if the code that allocated the pointer is flawed  it could still point to garbage.
         unsafe { RawVstPtr::new(self.ptr) }
+    }
+}
+
+impl<I: ComInterface + ?Sized> From<VstPtr<I>> for StaticVstPtr<I> {
+    fn from(value: VstPtr<I>) -> Self {
+        // todo: find a better way to prevent release from being called when the VstPtr is dropped
+        let value = std::mem::ManuallyDrop::new(value);
+        Self {
+            ptr: value.as_ptr(),
+        }
     }
 }
