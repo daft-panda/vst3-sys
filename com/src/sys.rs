@@ -3,6 +3,7 @@
 //! Stripped down to only the parts that overlap with VST3. `vst3_sys::base::funknown` contains the
 //! correct constants to use for interacting with VST3 APIs.
 use std::cmp::PartialEq;
+use uuid::Uuid;
 
 /// A Windows result code
 pub type HRESULT = i32;
@@ -70,5 +71,11 @@ impl std::fmt::Debug for GUID {
                 .collect::<Vec<String>>()
                 .join(""),
         )
+    }
+}
+
+impl From<Uuid> for GUID {
+    fn from(value: Uuid) -> Self {
+        GUID {data: value.into_bytes()}
     }
 }

@@ -11,3 +11,4 @@ readme = "./README.md"
 
 [dependencies]
 vst3-com-macros = { path = "macros" }
+uuid = "1.4.1"
