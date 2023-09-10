@@ -62,9 +62,9 @@ pub struct ProcessData {
 pub trait IAudioProcessor: IUnknown {
     unsafe fn set_bus_arrangements(
         &self,
-        inputs: *mut SpeakerArrangement,
+        inputs: *const SpeakerArrangement,
         num_ins: i32,
-        outputs: *mut SpeakerArrangement,
+        outputs: *const SpeakerArrangement,
         num_outs: i32,
     ) -> tresult;
     unsafe fn get_bus_arrangement(
