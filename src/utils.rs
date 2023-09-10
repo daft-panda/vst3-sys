@@ -40,7 +40,9 @@ impl<I: ComInterface + ?Sized> From<VstPtr<I>> for SharedVstPtr<I> {
     fn from(value: VstPtr<I>) -> Self {
         // todo: find a better way to prevent release from being called when the VstPtr is dropped
         let value = std::mem::ManuallyDrop::new(value);
-        SharedVstPtr { ptr:value.as_ptr()}
+        SharedVstPtr {
+            ptr: value.as_ptr(),
+        }
     }
 }
 

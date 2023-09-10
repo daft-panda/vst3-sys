@@ -76,6 +76,8 @@ impl std::fmt::Debug for GUID {
 
 impl From<Uuid> for GUID {
     fn from(value: Uuid) -> Self {
-        GUID {data: value.into_bytes()}
+        GUID {
+            data: value.into_bytes(),
+        }
     }
 }
