@@ -16,6 +16,7 @@ log = "0.4"
 simple_logger = "2.1.0"
 lazy_static = "1.4.0"
 widestring = "0.4.0"
+uuid = { version = "1.4.1", features = ["v4"] }
 
 [workspace]
 members = ["examples/again", "com", "com/macros", "com/macros/support"]
