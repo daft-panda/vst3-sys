@@ -9,7 +9,7 @@ pub type TBool = u8;
 /// A byte
 pub type char8 = c_char;
 /// A UTF-16 character
-pub type tchar = i16;
+pub type tchar = u16;
 /// A UTF-16 character
 pub type char16 = tchar;
 /// A null terminated C-String
