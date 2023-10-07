@@ -74,7 +74,7 @@ pub trait IEditController: IPluginBase {
         &self,
         id: u32,
         value_normalized: f64,
-        string: *mut TChar,
+        string: String128,
     ) -> tresult;
     unsafe fn get_param_value_by_string(
         &self,
